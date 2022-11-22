@@ -130,13 +130,13 @@ STATIC MP_DEFINE_CONST_FUN_OBJ_0(mp_micropython_heap_lock_obj, mp_micropython_he
 
 STATIC mp_obj_t mp_micropython_heap_unlock(void) {
     gc_unlock();
-    return MP_OBJ_NEW_SMALL_INT(MP_STATE_MEM(gc_lock_depth));
+    return MP_OBJ_NEW_SMALL_INT(MP_STATE_THREAD(gc_lock_depth));
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(mp_micropython_heap_unlock_obj, mp_micropython_heap_unlock);
 
 #if MICROPY_PY_MICROPYTHON_HEAP_LOCKED
 STATIC mp_obj_t mp_micropython_heap_locked(void) {
-    return MP_OBJ_NEW_SMALL_INT(MP_STATE_MEM(gc_lock_depth));
+    return MP_OBJ_NEW_SMALL_INT(MP_STATE_THREAD(gc_lock_depth));
 }
 STATIC MP_DEFINE_CONST_FUN_OBJ_0(mp_micropython_heap_locked_obj, mp_micropython_heap_locked);
 #endif
@@ -209,3 +209,5 @@ const mp_obj_module_t mp_module_micropython = {
     .base = { &mp_type_module },
     .globals = (mp_obj_dict_t *)&mp_module_micropython_globals,
 };
+
+MP_REGISTER_MODULE(MP_QSTR_micropython, mp_module_micropython);
