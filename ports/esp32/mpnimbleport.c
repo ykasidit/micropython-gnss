@@ -38,6 +38,8 @@
 
 #include "extmod/nimble/modbluetooth_nimble.h"
 
+#include "esp_bt.h"
+
 STATIC void ble_host_task(void *param) {
     DEBUG_printf("ble_host_task\n");
     nimble_port_run(); // This function will return only when nimble_port_stop() is executed.
@@ -47,6 +49,8 @@ STATIC void ble_host_task(void *param) {
 void mp_bluetooth_nimble_port_hci_init(void) {
     DEBUG_printf("mp_bluetooth_nimble_port_hci_init\n");
     esp_nimble_hci_and_controller_init();
+    esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT, ESP_PWR_LVL_P9);
+    esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_ADV, ESP_PWR_LVL_P9);
 }
 
 void mp_bluetooth_nimble_port_hci_deinit(void) {
